@@ -26,15 +26,25 @@
     2342 Mrz 25 09:41  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet...
     2339 Mrz 25 09:41  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet...    
 #>
-[cmdletBinding()] #Laden erweiterter PowerShell Funktionen wie zb Parametereigenschaft, Verbose, Debug
-Param( #Keyword zum einführen eines Parameterblocks
+[cmdletBinding()]              #Laden erweiterter PowerShell Funktionen wie zb Parametereigenschaft, Verbose, Debug
+Param(                         #Keyword zum einführen eines Parameterblocks
+                               #Das Validate Script ermöglicht eine "eigene" Validierung von werten
+[ValidateScript({Test-NetConnection -ComputerName $PSItem -CommonTCPPort WinRM -Informationlevel Quiet})]
 [Parameter(Mandatory=$true)]   #Definition das folgende Variable ein Parameter ist mit der Eigenschaft Mandatory = $true. (Pflichparameter)
-[string]$ComputerName,    #Parameter mit DatenTyp "vorvalidiert"
+[string]$ComputerName,         #Parameter mit DatenTyp "vorvalidiert"
 
-[int]$EventId = 4624,     #Parameter mit Default Wert der Verwendet wird wenn keine User "Eingabe" erfolgte
+[ValidateSet(4624,4625,4634)]  #Definiert eine Liste an möglichen Werten
+[int]$EventId = 4624,          #Parameter mit Default Wert der Verwendet wird wenn keine User "Eingabe" erfolgte
 
-[int]$Newest = 5
+[ValidateRange(5,10)]          #Definiert einen Wertebereich den der Parameter supportet
+[int]$Newest = 5,
+
+[ValidatePAttern("\.(txt|csv)")] #Regular Expression die auf die Dateiendung .txt oder .csv prüft
+[string]$Filepath = "EMPTY"      #Default Wert um im Skript festzustellen ob Wert gesetzt wurde oder nicht              
 )
+
+#Variable kann auch im Skript nicht in einem ungültigen Bereich der Validierung leigen 
+#$Newest = 3
 
 #Write-Verbose erzeigt eine zusätzliche "Ausführliche" Ausgabe die nur ausgebenen wird wenn das Skript mit -Verbose gestartet wird
 Write-Verbose -Message "Folgende Werte wurden der Ausführung übergeben: "
