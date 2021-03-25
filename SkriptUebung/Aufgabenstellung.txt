@@ -1,0 +1,13 @@
+Aufgabe:
+-Skript zu erstellen welches einen Testfiles Ordner mit dazugehörigen Dateien und Unterordnern erstellt
+-Validierung der Parameter
+-Hinzufügen der Comment Based Help
+-Mindestparameter:
+--Pfad unter dem der TestFiles Ordner erstellt wird
+--Anzahl an Ordnern
+--Anzahl an Dateien
+
+Optional:
+-Name des TestFiles Ordner als Parameter
+-mit Dateiinhalt
+-Ausgabe als Zip
