@@ -74,4 +74,16 @@ for($i = 1; $i -le $DirCount;$i++)
    New-TestFiles -Path $DirPath -Prefix "Ordner$("{0:D3}" -f $i)"
 }
 }
+function Test-Debug
+{
+    [cmdletBinding()]
+    param(
+        [string]$Eingabe = "Input"
+    )
+    Write-Debug -Message "Vor Erster Ausgabe"
+    Write-Host -Object "Erste Ausgabe: $Eingabe" -ForegroundColor White
+
+    Write-Debug -Message "Vor zweiter Ausgabe"
+    Write-Host -Object "Zweite Ausgabe: $Eingabe" -ForegroundColor Cyan
+}
 
