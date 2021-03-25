@@ -21,9 +21,10 @@ function New-TestFiles
 
 function New-TestFilesDir
 {
-[cmdletBinding()]
+[cmdletBinding(PositionalBinding=$false)]
 Param(
     [ValidateScript({Test-Path -Path $PSItem})]
+    [Parameter(Mandatory=$true,Position=0)]
     [string]$Destinationpath,
 
     [ValidateLength(3,10)]
@@ -74,6 +75,7 @@ for($i = 1; $i -le $DirCount;$i++)
    New-TestFiles -Path $DirPath -Prefix "Ordner$("{0:D3}" -f $i)"
 }
 }
+
 function Test-Debug
 {
     [cmdletBinding()]
@@ -85,5 +87,21 @@ function Test-Debug
 
     Write-Debug -Message "Vor zweiter Ausgabe"
     Write-Host -Object "Zweite Ausgabe: $Eingabe" -ForegroundColor Cyan
+}
+
+function Test-ParameterSet
+{
+[cmdletBinding(PositionalBinding=$false,DefaulParameterSetName="Set1")]
+param(
+    [Parameter(Mandatory = $true,ParameterSetName="Set1")]
+    [string]$Parameter1,
+
+    [Parameter(Mandatory = $true, ParameterSetName="Set2")]
+    [string]$Parameter2,
+
+    [Parameter(Mandatory = $true,ParameterSetName="Set1")]
+    [Parameter(Mandatory = $false,ParameterSetName="Set2")]
+    [string]$Parameter3
+)
 }
 
