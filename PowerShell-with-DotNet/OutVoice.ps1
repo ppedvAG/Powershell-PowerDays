@@ -1,4 +1,26 @@
-﻿
+﻿[cmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$Text
+)
+
+
+do
+{
+
+$audioservice = Get-Service -Name Audiosrv
+
+if($audioservice.Status -ne "Running")
+{
+    $audioservice.Start()
+    Start-Sleep -Milliseconds 20
+}
+ Start-Sleep -Milliseconds 20
+
+}until(( Get-Service -Name Audiosrv).Status -eq "Running")
+
+
+
 #Add-Type ermöglicht das laden von DLL / oder .Net Objekten in der Powershell
 Add-Type -AssemblyName System.Speech
 
@@ -15,7 +37,7 @@ $speak.SelectVoice($voices[1].Name)
 
 
 #Ausführen der Speak Methode
-$speak.Speak("Would you like to play a game?")
+$speak.Speak($Text)
 
 #Am Ende der Verwendung von .NET Objekten oder Assemblies sollten dieses Disposed werden
 $speak.Dispose() 
