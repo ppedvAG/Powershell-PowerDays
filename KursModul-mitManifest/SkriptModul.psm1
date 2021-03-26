@@ -105,3 +105,27 @@ param(
 )
 }
 
+function Test-PipelineInput
+{
+[cmdletBinding()]
+param(
+    [Parameter(Mandatory=$true,ValueFromPipeLine=$true,ValueFromPipelineByPropertyName=$true)]
+    [string[]]$Name,
+    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [string[]]$PM
+)
+    Begin
+    {
+        Write-Host -ForegroundColor Green -Object "Ich laufe einmal am Anfang"
+    }
+    Process
+    {
+        Write-Debug -Message "VorAusgabe"
+        Write-Host -ForegroundColor Magenta -Object $Name
+        Write-Host -ForegroundColor Cyan -Object $PM
+    }
+    End
+    {
+         Write-Host -ForegroundColor Green -Object "Ich laufe einmal am Ende"
+    }
+}
